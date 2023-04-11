@@ -1,0 +1,14 @@
+---
+- hosts: chef
+  become: yes
+  remote_user: root
+  tasks:
+    - name: install chef infra
+      apt: pkg=chef state=latest
+      notify:
+      - restart chef
+    - name: knife bootstrap 
+      command: knife bootstrap -N vakula2004
+  handlers:
+    - name: restart chef
+      service: name=chef state=restarted
